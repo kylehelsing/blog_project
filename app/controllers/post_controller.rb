@@ -12,7 +12,7 @@ class PostController < ApplicationController
   end
 
   def new
-    @post = Post.new(user: current_user)
+    @post = Post.new
   end
 
   def create
@@ -20,7 +20,7 @@ class PostController < ApplicationController
     @post.user = current_user
 
     if @post.save
-      redirect_to posts_url, notice: 'Post was successfully created.'
+      redirect_to post_index_path, notice: 'Post was successfully created.'
     else
       render :new
     end
@@ -31,14 +31,16 @@ class PostController < ApplicationController
 
   def update
     if @post.update(post_params)
-      redirect_to posts_url, notice: 'Post was successfully updated.'
+      redirect_to user_posts_path, notice: 'Post was successfully updated.'
     else
       render :edit
     end
   end
 
   def destroy
-    @post.destroy
+    if @post.destroy
+      redirect_to user_posts_path, notice: 'Post was successfully deleted.'
+    end
   end
 
 
