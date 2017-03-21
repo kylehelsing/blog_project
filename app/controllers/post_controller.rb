@@ -1,22 +1,56 @@
 class PostController < ApplicationController
+  before_action :set_post, only: [:show, :edit, :update, :destroy]
   def show
   end
 
   def index
+    @posts = Post.all
+  end
+
+  def user_index
+    @posts = Post.where(user: current_user)
   end
 
   def new
+    @post = Post.new(user: current_user)
   end
 
   def create
+    @post = Post.new(post_params)
+    @post.user = current_user
+
+    if @post.save
+      redirect_to posts_url, notice: 'Post was successfully created.'
+    else
+      render :new
+    end
   end
 
   def edit
   end
 
   def update
+    if @post.update(post_params)
+      redirect_to posts_url, notice: 'Post was successfully updated.'
+    else
+      render :edit
+    end
   end
 
   def destroy
+    @post.destroy
   end
+
+
+  private
+
+  def set_post
+    @post = Post.find(params[:id])
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def post_params
+    params.require(:post).permit(:title, :body)
+  end
+
 end
