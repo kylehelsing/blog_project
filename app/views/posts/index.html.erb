@@ -2,11 +2,14 @@
 
 <h1>Listing Posts</h1>
 
+<%= link_to "hello", posts_path(tag: 'hello') %>
+
 <table>
   <thead>
     <tr>
       <th>Title</th>
       <th>Body</th>
+      <th>Author</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -25,4 +28,4 @@
 
 <br>
 
-<%= link_to 'New Post', new_post_path %>
+<!-- <%= link_to 'New Post', new_post_path %> -->

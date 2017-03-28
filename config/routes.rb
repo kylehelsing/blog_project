@@ -1,9 +1,11 @@
 Rails.application.routes.draw do
 
-  root 'post#index'
+  root 'posts#index'
 
-  resources :post
-  get '/user_posts' => 'post#user_index'
+  resources :posts do
+    resources :comments, except: [:show, :edit, :update]
+  end
+  get '/user_posts' => 'posts#user_index'
 
   devise_for :users
   # The priority is based upon order of creation: first created -> highest priority.

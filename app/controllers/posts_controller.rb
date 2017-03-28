@@ -1,10 +1,14 @@
-class PostController < ApplicationController
+class PostsController < ApplicationController
   before_action :set_post, only: [:show, :edit, :update, :destroy]
   def show
   end
 
   def index
-    @posts = Post.all
+    if params[:tag].present?
+
+    else
+      @posts = Post.all
+    end
   end
 
   def user_index
@@ -20,7 +24,7 @@ class PostController < ApplicationController
     @post.user = current_user
 
     if @post.save
-      redirect_to post_index_path, notice: 'Post was successfully created.'
+      redirect_to user_posts_path, notice: 'Post was successfully created.'
     else
       render :new
     end
@@ -52,7 +56,7 @@ class PostController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def post_params
-    params.require(:post).permit(:title, :body)
+    params.require(:post).permit(:title, :body, :tag)
   end
 
 end
