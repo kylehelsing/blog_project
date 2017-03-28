@@ -4,11 +4,7 @@ class PostsController < ApplicationController
   end
 
   def index
-    if params[:tag].present?
-
-    else
       @posts = Post.all
-    end
   end
 
   def user_index

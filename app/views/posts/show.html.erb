@@ -9,6 +9,10 @@
   <strong>Body:</strong>
   <%= @post.body %>
 </p>
+<p>
+  <strong>Tags:</strong>
+  <%= @post.tags.pluck(:name).join(" | ") %>
+</p>
 <!-- <%= link_to 'Edit', edit_post_path(@post) %> -->
 <p>
   <strong>Comments:</strong>
