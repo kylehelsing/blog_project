@@ -1,9 +1,9 @@
 <p id="notice"><%= notice %></p>
 
-<h1>Listing Posts</h1>
-
-<%= link_to "hello", posts_path(tag: 'hello') %>
-
+<h1>All Posts</h1>
+<%if user_signed_in? %>
+  <%= link_to 'Your Posts', user_posts_path %>
+<%end %>
 <table>
   <thead>
     <tr>
@@ -28,4 +28,11 @@
 
 <br>
 
-<!-- <%= link_to 'New Post', new_post_path %> -->
+<%= link_to 'New Post', new_post_path %>
+<br>
+<br>
+<strong>All Tags:</strong>
+<br>
+<% @total_tags.each do |t| %>
+  <%= link_to t.name, posts_path(tag: t.name) %>
+<% end %>

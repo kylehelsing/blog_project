@@ -11,9 +11,10 @@
 </p>
 <p>
   <strong>Tags:</strong>
-  <%= @post.tags.pluck(:name).join(" | ") %>
+  <% @post.tags.each do |t| %>
+    <%= link_to t.name, posts_path(tag: t.name) %>
+  <% end %>
 </p>
-<!-- <%= link_to 'Edit', edit_post_path(@post) %> -->
 <p>
   <strong>Comments:</strong>
   <% @post.comments.each do |com| %>

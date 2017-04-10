@@ -1,10 +1,16 @@
 class PostsController < ApplicationController
+  before_action :authenticate_user!, only: [:user_index, :new, :create, :edit, :update, :destroy]
   before_action :set_post, only: [:show, :edit, :update, :destroy]
   def show
   end
 
   def index
+    @total_tags = Tag.all
+    if params[:tag].present? && Tag.find_by_name(params[:tag]).present?
+      @posts = Tag.find_by_name(params[:tag]).posts
+    else
       @posts = Post.all
+    end
   end
 
   def user_index
@@ -27,6 +33,7 @@ class PostsController < ApplicationController
   end
 
   def edit
+    @post.tag_string = @post.tags.pluck(:name).join(", ")
   end
 
   def update
@@ -52,7 +59,7 @@ class PostsController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def post_params
-    params.require(:post).permit(:title, :body, :tag)
+    params.require(:post).permit(:title, :body, :tag_string)
   end
 
 end

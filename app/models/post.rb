@@ -1,37 +1,30 @@
 class Post < ActiveRecord::Base
-  after_commit :process_tags, on: :create
-  after_commit :update_tags, on: :update
+  after_commit :process_tags, on: [:create, :update]
   belongs_to :user
   has_many :comments
-  has_many :post_tags
+  has_many :post_tags, dependent: :destroy
   has_many :tags, through: :post_tags
-  attr_accessor :tag
+  attr_accessor :tag_string
 
   def process_tags
-    tags = []
-    tagsplit = tag.downcase.split(/\s*,\s*/)
+    tags_on_form = []
+    tagsplit = tag_string.downcase.split(/\s*,\s*/)
     tagsplit.each do |i|
-      if Tag.where(name: i).empty?
-        tags << Tag.create!(name: i)
+      t = Tag.new(name: i)
+      if t.save
+        tags_on_form << t
       else
-        tags << Tag.find_by_name(i)
+        t = Tag.find_by_name(i)
+        tags_on_form << t
       end
+      PostTag.new(tag: t, post: self).save
     end
-    tags.each do |t|
-      PostTag.create!(tag: t, post: self)
-    end
-  end
-
-  def update_tags
-    tags = []
-    tagsplit = tag.downcase.split(/\s*,\s*/)
-    tagsplit.each do |i|
-      if Tag.where(name: i).empty?
-        Tag.create!(name: i)
-        PostTag.create!(tag: t, post: self)
-      end
-    #all_post_tags = tags.pluck(:name)
-
+    if created_at+2.seconds < Time.now
+      all_post_tags = tags.pluck(:name)
+      tag_names_to_remove = all_post_tags - tags_on_form.map{|x| x.name}
+      t = tags.where(name: tag_names_to_remove).pluck(:id)
+      to_remove = post_tags.where(tag_id: t)
+      to_remove.destroy_all
     end
   end
 
