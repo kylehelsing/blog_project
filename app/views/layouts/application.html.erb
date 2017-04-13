@@ -26,18 +26,13 @@
       <a class="nav-item is-tab is-hidden-tablet is-active" href= "<%= posts_path %>" >All Posts</a>
       <a class="nav-item is-tab is-hidden-tablet" href= "<%= user_posts_path %>" >Your Posts</a>
       <% if user_signed_in? %>
-      <a class="nav-item is-tab" href= "<%= destroy_user_session_url(:method => :delete) %>" >Log out </a>
+        <%= link_to 'Sign out', destroy_user_session_path, method: :delete, class: 'nav-item is-tab' %>
       <% else %>
       <a class="nav-item is-tab" href= "<%= new_user_session_path %>" >Log in </a>
       <% end %>
     </div>
   </div>
 </nav>
-        <% if user_signed_in? %>
-          <%= link_to 'Sign out', destroy_user_session_path, method: :delete %>
-        <% else %>
-          <%= link_to 'Sign in', new_user_session_path %>
-        <% end %>
 <% if flash[:alert] %>
   <p class="alert"><%= flash[:alert] %></p>
 <% end %>
