@@ -5,7 +5,7 @@ class PostsController < ApplicationController
   end
 
   def index
-    @total_tags = Tag.all
+    @total_tags = Tag.all.sort_by(&:name)
     if params[:tag].present? && Tag.find_by_name(params[:tag]).present?
       @posts = Tag.find_by_name(params[:tag]).posts
     else

@@ -4,14 +4,40 @@
   <title>BlogProject</title>
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+   <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.4.0/css/bulma.min.css">
   <%= csrf_meta_tags %>
 </head>
 <body>
-<% if user_signed_in? %>
-  <%= link_to 'Sign out', destroy_user_session_path, method: :delete %>
-<% else %>
-  <%= link_to 'Sign in', new_user_session_path %>
-<% end %>
+<nav class="nav has-shadow">
+  <div class="container">
+    <div class="nav-left">
+      <a class="nav-item">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Penrose-dreieck.svg" alt="Cool Triangle">
+      </a>
+      <a class="nav-item is-tab is-hidden-mobile is-active" href= "<%= posts_path %>" >All Posts</a>
+      <a class="nav-item is-tab is-hidden-mobile" href= "<%= user_posts_path %>" >Your Posts</a>
+    </div>
+    <span class="nav-toggle">
+      <span></span>
+      <span></span>
+      <span></span>
+    </span>
+    <div class="nav-right nav-menu">
+      <a class="nav-item is-tab is-hidden-tablet is-active" href= "<%= posts_path %>" >All Posts</a>
+      <a class="nav-item is-tab is-hidden-tablet" href= "<%= user_posts_path %>" >Your Posts</a>
+      <% if user_signed_in? %>
+      <a class="nav-item is-tab" href= "<%= destroy_user_session_url(:method => :delete) %>" >Log out </a>
+      <% else %>
+      <a class="nav-item is-tab" href= "<%= new_user_session_path %>" >Log in </a>
+      <% end %>
+    </div>
+  </div>
+</nav>
+        <% if user_signed_in? %>
+          <%= link_to 'Sign out', destroy_user_session_path, method: :delete %>
+        <% else %>
+          <%= link_to 'Sign in', new_user_session_path %>
+        <% end %>
 <% if flash[:alert] %>
   <p class="alert"><%= flash[:alert] %></p>
 <% end %>
