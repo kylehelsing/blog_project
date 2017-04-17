@@ -14,6 +14,7 @@ class PostsController < ApplicationController
   end
 
   def user_index
+    @total_tags = Tag.all.sort_by(&:name)
     @posts = Post.where(user: current_user)
   end
 
