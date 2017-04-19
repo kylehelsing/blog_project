@@ -2,20 +2,28 @@
 <html>
 <head>
   <title>BlogProject</title>
-  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.4.0/css/bulma.min.css">
+   <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true %>
   <%= csrf_meta_tags %>
 </head>
 <body>
-<nav class="nav has-shadow">
+<nav class="nav has-shadow fun">
   <div class="container">
     <div class="nav-left">
       <a class="nav-item">
         <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Penrose-dreieck.svg" alt="Cool Triangle">
       </a>
-      <a class="nav-item is-tab is-hidden-mobile is-active" href= "<%= posts_path %>" >All Posts</a>
-      <a class="nav-item is-tab is-hidden-mobile" href= "<%= user_posts_path %>" >Your Posts</a>
+      <% if controller.action_name == "index" %>
+        <a class="nav-item is-tab is-hidden-mobile is-active" href= "<%= posts_path %>" >All Posts</a>
+      <% else %>
+        <a class="nav-item is-tab is-hidden-mobile" href= "<%= posts_path %>" >All Posts</a>
+      <% end %>
+      <% if controller.action_name == "user_index" %>
+        <a class="nav-item is-tab is-hidden-mobile is-active" href= "<%= user_posts_path %>" >Your Posts</a>
+      <% else %>
+        <a class="nav-item is-tab is-hidden-mobile" href= "<%= user_posts_path %>" >Your Posts</a>
+      <% end %>
     </div>
     <span class="nav-toggle">
       <span></span>
